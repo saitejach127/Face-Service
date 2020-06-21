@@ -1,0 +1,17 @@
+version: '3.0'
+services: 
+    face_service:
+        image: face_service:v1.3
+        ports: 
+            - 5000:5000
+        links:
+            - "file_server:file_server"
+        environment: 
+            - FLASK_APP=index.py
+            - ENV=docker
+    file_server:
+        image: nginx:alpine
+        ports:
+            - 8080:80
+        volumes:
+            - ./uploads:/usr/share/nginx/html
