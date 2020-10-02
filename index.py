@@ -16,7 +16,7 @@ else :
 
 @app.route("/")
 def index():
-    return "<h1>Welcome make a post Request</h1>"
+    return "<h1>Welcome! Make a Post Request</h1>"
 
 @app.route("/add", methods=["POST"])
 def add_photo():
@@ -24,7 +24,7 @@ def add_photo():
         data = request.get_json()
         file = request.files["file"]
         file.save(os.path.join("uploads",file.filename))
-        print(file.filename)
+#         print(file.filename)
     return {"id":file.filename}
 
 @app.route("/detect", methods=["POST"])
@@ -35,8 +35,7 @@ def detect_face():
         unknown_image = Image.open(io.BytesIO(file.read()))
         unknown_image = np.array(unknown_image)
         image = requests.get(IMAGE_URL + name).content
-        known_image = Image.open(io.BytesIO(image))
-        known_image = np.array(known_image)
+        known_image = np.array(Image.open(io.BytesIO(image)))
         known_image = known_image[:,:,:3]
         unknown_image = unknown_image[:,:,:3]
         unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
